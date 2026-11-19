@@ -412,25 +412,25 @@ class CommunityEvent {
   }
 }
 
-/// ゲームグッズの「ゆずりあい・交換」掲示板（近隣での情報共有）。
-/// kind: 'give'   = ゲームグッズをゆずります
-///       'wanted' = ゲームグッズを探しています
-///       'trade'  = 交換します
-/// 金銭取引は行わない（ゲームセンターの入口前・駅前広場での受け渡し・ゆずり合い前提）。
-class GameGoodsExchange {
+/// ゲームの「近況報告」掲示板（近隣での近況・写真・イベント報告の共有）。
+/// kind: 'shoot' = 撮影（プレイ風景・ゲームソフト・筐体の写真の報告）
+///       'post'  = つぶやき（近況・ひとことの報告）
+///       'event' = イベント（対戦会・大会等の報告）
+/// 他人が写る画像は許諾を確認できたもののみ投稿する。
+class GameReport {
   final String id;
   final String posterId;
-  final String kind; // 'give' | 'wanted' | 'trade'
-  final String itemDescription; // グッズ名（ソフト・コントローラー・フィギュア等の状態など）
-  final String areaName; // 受け渡し希望地域やイベント名
-  final String detail; // 状態・受け渡し方法の自由記述
+  final String kind; // 'shoot' | 'post' | 'event'
+  final String itemDescription; // タイトル（ゲーム・できごとなど）
+  final String areaName; // 場所（ゲームセンター・店名）
+  final String detail; // 近況・ハイライトの自由記述
   final String? photoPath; // 投稿写真（端末内パス or 公開URL）
   final double lat;
   final double lng;
   final DateTime createdAt;
-  bool closed; // 完了（受け渡し・交換が成立した等）
+  bool closed; // 完了（一覧から非表示にした）
 
-  GameGoodsExchange({
+  GameReport({
     required this.id,
     required this.posterId,
     required this.kind,
@@ -444,14 +444,14 @@ class GameGoodsExchange {
     this.closed = false,
   });
 
-  /// ゆずります
-  bool get isGive => kind == 'give';
+  /// 撮影の報告
+  bool get isShoot => kind == 'shoot';
 
-  /// 探しています
-  bool get isWanted => kind == 'wanted';
+  /// つぶやき（近況・ひとこと）
+  bool get isPost => kind == 'post';
 
-  /// 交換します
-  bool get isTrade => kind == 'trade';
+  /// イベントの報告
+  bool get isEvent => kind == 'event';
 }
 
 class ChatMessage {
